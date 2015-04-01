@@ -17,8 +17,13 @@ var bio = {
 	"display": function() {
 		var formattedName = HTMLheaderName.replace("%data%", bio.name);
 		var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
-		$("#header").prepend(formattedRole);
-		$("#header").prepend(formattedName);
+
+		$(".fixed-header").prepend(internationalizeButton);
+		$(".fixed-header").append(HTMLnameAndRole);
+		$(".fixed-header").append(HTMLmenuContainer);
+		$("#name-and-role").append(formattedName);
+		$("#name-and-role").append(formattedRole);
+		$("#menu-container").append(HTMLmenuButton);
 
 		// contact info
 		for (var contact in bio.contacts) {
@@ -36,17 +41,18 @@ var bio = {
 
 		var formattedPic = HTMLbioPic.replace("%data%", bio.biopic);
 		var formattedMsg = HTMLWelcomeMsg.replace("%data%", bio.welcomeMessage);
-		$("#header").append(formattedPic);
-		$("#header").append(formattedMsg);
+		$("#static-header").append(formattedPic);
+		$("#static-header").append(formattedMsg);
 
-		$("#header").append(HTMLskillsStart);
+		$("#static-header").append(HTMLskillsStart);
 		for (var i in bio.skills) {
 			var formattedSkill = HTMLskills.replace("%data%", bio.skills[i]);
 			$("#skills").append(formattedSkill);
 		}
+
+		$("#static-header").prepend("<hr>");
 	}
 };
-
 
 var education = {
 	"schools": [
@@ -88,12 +94,6 @@ var education = {
 		}
 	],
 	"display": function() {
-		// var HTMLonlineClasses = '<h3>Online Classes</h3>';
-		// var HTMLonlineTitle = '<a href="#">%data%';
-		// var HTMLonlineSchool = ' - %data%</a>';
-		// var HTMLonlineDates = '<div class="date-text">%data%</div>';
-		// var HTMLonlineURL = '<br><a href="#">%data%</a>';
-
 		// Schools
 		for (var i in education.schools) {
 			$("#education").append(HTMLschoolStart);
@@ -105,7 +105,6 @@ var education = {
 			school += HTMLworkLocation.replace("%data%", education.schools[i].location);
 			school += HTMLschoolMajor.replace("%data%", education.schools[i].majors.join(", "));
 
-			// NOTICE :last, so appends ONLY ofter LAST .education-entry div
 			$(".education-entry:last").append(school);
 		}
 
@@ -119,12 +118,10 @@ var education = {
 			onlineClass += HTMLonlineDates.replace("%data%", education.onlineCourses[i].date);
 			onlineClass += HTMLonlineURL.replace("%data%", education.onlineCourses[i].url);
 
-			// NOTICE :last, so appends ONLY ofter LAST .education-entry div
 			$(".education-entry:last").append(onlineClass);
 		}
 	}
 };
-
 
 var work = {
 	"jobs": [
@@ -166,12 +163,10 @@ var work = {
 			job += HTMLworkLocation.replace("%data%", work.jobs[i].location);
 			job += HTMLworkDescription.replace("%data%", work.jobs[i].description);
 
-			// NOTICE :last, so appends ONLY ofter LAST .project-entry div
 			$(".work-entry:last").append(job);
 		}
 	}
 };
-
 
 var projects = {
 	"projects": [
@@ -186,8 +181,8 @@ var projects = {
 				brie pecorino jarlsberg stinking bishop cheese and biscuits.\
 				Danish fontina blue castello bavarian bergkase blue castello.",
 			"images": [
-				"images/197x148.gif",
-				"images/197x148.gif"
+				"http://placekitten.com/197/148",
+				"http://placekitten.com/197/148"
 			]
 		},
 		{
@@ -201,14 +196,12 @@ var projects = {
 				brie pecorino jarlsberg stinking bishop cheese and biscuits.\
 				Danish fontina blue castello bavarian bergkase blue castello.",
 			"images": [
-				"images/197x148.gif",
-				"images/197x148.gif"
+				"http://placekitten.com/197/148",
+				"http://placekitten.com/197/148"
 			]
 		}
 	],
 	"display": function() {
-
-		// var HTMLprojectImage = '<img src="%data%">';
 		for (var i in projects.projects) {
 			$("#projects").append(HTMLprojectStart);
 
@@ -223,28 +216,114 @@ var projects = {
 			}
 			project += pics;
 
-			// NOTICE :last, so appends ONLY ofter LAST .project-entry div
 			$(".project-entry:last").append(project);
 		}
 	}
 };
 
+/*
+	consolidates helper functions used in the project
+*/
+var helpers = {
+	"inName": function() {
+		finalName = bio.name[0].toUpperCase() + bio.name.substring(1, bio.name.indexOf(" ")).toLowerCase() +
+			bio.name.substring(bio.name.indexOf(" ")).toUpperCase();
+
+		return finalName;
+	},
+	"toggleCSS": function() {
+		if($("#mystyle").length) {
+			$("#mystyle").remove();
+		}
+		else {
+			$("head").append('<link id="mystyle" href="css/style.css" rel="stylesheet">');
+		}
+
+		// unAnimate name
+		$("#name").removeClass("rubberBand");
+
+		helpers.animate("body", "bounceIn");
+	},
+	"navToggle": function() {
+		if ($(".fixed-header").hasClass("fadeOut")) {
+			return;
+		}
+
+		$("nav").toggleClass("show-nav");
+	},
+	"hideMenu": function() {
+		$("nav").removeClass("show-nav");
+	},
+	"animate": function(element, animation) {
+		var animationEnd = "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend";
+
+		$(element).addClass("animated " + animation).one(animationEnd, function() {
+			$(this).removeClass("animated " + animation);
+		})
+	},
+	"setListeners": function() {
+		/*
+			hide fixed header when navigation is used to
+			switch sections of resume, and animate that section.
+		*/
+		$(".hide-header").click(
+			function() {
+				$(".fixed-header").addClass("fadeOut");
+				$(".fixed-header").addClass("hide");
+
+				// animate selected element
+				var elmt = this.href.substring(this.href.indexOf("#")) + ">h2";
+				helpers.animate(elmt, "flash");
+			}
+		);
+
+		/*
+			hide mobile menu on scroll and clicks outside of it
+		*/
+		$(window).scroll(helpers.hideMenu);
+		$("#static-header, main, nav a").click(helpers.hideMenu);
+	}
+};
 
 bio.display();
 work.display();
 projects.display();
 education.display();
-
-
-// to see a map
+helpers.setListeners();
 $("#mapDiv").append(googleMap);
 
-// change <Firstname Lastname> to <Firstame LASTNAME> im #header
-function inName() {
-	finalName = bio.name[0].toUpperCase() + bio.name.substring(1, bio.name.indexOf(" ")).toLowerCase() +
-    	bio.name.substring(bio.name.indexOf(' ')).toUpperCase();
+/*
+	animates .fixed-header
+*/
+(function() {
+	var header = new Headroom(document.querySelector(".fixed-header"), {
+		tolerance: 10,
+		offset : 0,
+		classes: {
+			initial: "animated",
+			unpinned: "fadeOut"
+		},
+		onPin: function() {
+			var $self = $(".fixed-header");
 
-    return finalName;
-}
+			if ($self.hasClass("hide")) {
+				$self.addClass("fadeOut");
+				$self.removeClass("hide fadeIn");
+			}
+			else {
+				$self.addClass("fadeIn");
+			}
+		}
+	});
+	header.init();
 
-$("#main").append(internationalizeButton);
+	var navigation = new Headroom(document.querySelector("#nav-bar"), {
+			tolerance: 0,
+			offset : 237.406,
+			classes: {
+				top: "normal-nav",
+				notTop: "fixed-nav"
+			}
+	});
+	navigation.init();
+}());

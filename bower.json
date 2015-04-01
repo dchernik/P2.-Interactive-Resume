@@ -1,0 +1,16 @@
+{
+  "name": "Interactive Resume",
+  "description": "",
+  "homepage": "",
+  "keywords": [],
+  "author": "Denis Chernik",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#latest",
+    "paper-elements": "Polymer/paper-elements#latest",
+    "core-elements": "Polymer/core-elements#latest",
+    "animateCSS": "~1.2.1",
+    "jquery": "~2.1.3",
+    "headroom.js": "~0.7.0"
+  }
+}
