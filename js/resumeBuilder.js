@@ -27,18 +27,18 @@ var bio = {
 
 		// contact info
 		for (var contact in bio.contacts) {
-      if (bio.contacts.hasOwnProperty(contact)) {
-        var formattedContact = HTMLcontactGeneric.replace(/%contact%|%data%/g, function(match) {
-          if (match === "%contact%") {
-            return contact;
-          }
-          else if (match === "%data%") {
-            return bio.contacts[contact];
-          }
-          });
-        $("#topContacts").append(formattedContact);
-        $("#footerContacts").append(formattedContact);
-    	}
+			if (bio.contacts.hasOwnProperty(contact)) {
+				var formattedContact = HTMLcontactGeneric.replace(/%contact%|%data%/g, function(match) {
+					if (match === "%contact%") {
+						return contact;
+					}
+					else if (match === "%data%") {
+						return bio.contacts[contact];
+					}
+					});
+				$("#topContacts").append(formattedContact);
+				$("#footerContacts").append(formattedContact);
+			}
 		}
 
 		var formattedPic = HTMLbioPic.replace("%data%", bio.biopic);
@@ -125,7 +125,6 @@ var education = {
 	}
 };
 
-/*jshint multistr: true */
 var work = {
 	"jobs": [
 		{
@@ -133,26 +132,26 @@ var work = {
 			"title": "Delivery Boy",
 			"location": "Brooklyn, NY",
 			"dates": "January 3000 - Future",
-			"description": "Who moved my cheese cheesecake stinking bishop.\
-				Dolcelatte danish fontina dolcelatte camembert de normandie\
-				airedale goat pecorino brie. Mozzarella cauliflower cheese\
-				chalk and cheese cheddar smelly cheese say cheese who moved\
-				my cheese blue castello. Cheddar smelly cheese cheese triangles\
-				brie pecorino jarlsberg stinking bishop cheese and biscuits.\
-				Danish fontina blue castello bavarian bergkase blue castello."
+			"description": "Who moved my cheese cheesecake stinking bishop." +
+				"Dolcelatte danish fontina dolcelatte camembert de normandie" +
+				"airedale goat pecorino brie. Mozzarella cauliflower cheese" +
+				"chalk and cheese cheddar smelly cheese say cheese who moved" +
+				"my cheese blue castello. Cheddar smelly cheese cheese triangles" +
+				"brie pecorino jarlsberg stinking bishop cheese and biscuits." +
+				"Danish fontina blue castello bavarian bergkase blue castello."
 		},
 		{
 			"employer": "Panucci's Pizza",
 			"title": "Delivery Boy",
 			"location": "Manhattan, NY",
 			"dates": "1998 - December 31, 1999",
-			"description": "Who moved my cheese cheesecake stinking bishop.\
-				Dolcelatte danish fontina dolcelatte camembert de normandie\
-				airedale goat pecorino brie. Mozzarella cauliflower cheese\
-				chalk and cheese cheddar smelly cheese say cheese who moved\
-				my cheese blue castello. Cheddar smelly cheese cheese triangles\
-				brie pecorino jarlsberg stinking bishop cheese and biscuits.\
-				Danish fontina blue castello bavarian bergkase blue castello."
+			"description": "Who moved my cheese cheesecake stinking bishop." +
+				"Dolcelatte danish fontina dolcelatte camembert de normandie" +
+				"airedale goat pecorino brie. Mozzarella cauliflower cheese" +
+				"chalk and cheese cheddar smelly cheese say cheese who moved" +
+				"my cheese blue castello. Cheddar smelly cheese cheese triangles" +
+				"brie pecorino jarlsberg stinking bishop cheese and biscuits." +
+				"Danish fontina blue castello bavarian bergkase blue castello."
 		}
 	],
 	"display": function() {
@@ -172,38 +171,35 @@ var work = {
 };
 
 var projects = {
-	"projects": [
-		{
+	"projects": [{
 			"title": "Sample Project 1",
 			"dates": "2014",
-			"description": "Who moved my cheese cheesecake stinking bishop.\
-				Dolcelatte danish fontina dolcelatte camembert de normandie\
-				airedale goat pecorino brie. Mozzarella cauliflower cheese\
-				chalk and cheese cheddar smelly cheese say cheese who moved\
-				my cheese blue castello. Cheddar smelly cheese cheese triangles\
-				brie pecorino jarlsberg stinking bishop cheese and biscuits.\
-				Danish fontina blue castello bavarian bergkase blue castello.",
+			"description": "Who moved my cheese cheesecake stinking bishop." +
+				"Dolcelatte danish fontina dolcelatte camembert de normandie" +
+				"airedale goat pecorino brie. Mozzarella cauliflower cheese" +
+				"chalk and cheese cheddar smelly cheese say cheese who moved" +
+				"my cheese blue castello. Cheddar smelly cheese cheese triangles" +
+				"brie pecorino jarlsberg stinking bishop cheese and biscuits." +
+				"Danish fontina blue castello bavarian bergkase blue castello.",
 			"images": [
 				"http://placekitten.com/197/148",
 				"http://placekitten.com/197/148"
-			]
-		},
+			]},
 		{
 			"title": "Sample Project 2",
 			"dates": "2013",
-			"description": "Who moved my cheese cheesecake stinking bishop.\
-				Dolcelatte danish fontina dolcelatte camembert de normandie\
-				airedale goat pecorino brie. Mozzarella cauliflower cheese\
-				chalk and cheese cheddar smelly cheese say cheese who moved\
-				my cheese blue castello. Cheddar smelly cheese cheese triangles\
-				brie pecorino jarlsberg stinking bishop cheese and biscuits.\
-				Danish fontina blue castello bavarian bergkase blue castello.",
+			"description": "Who moved my cheese cheesecake stinking bishop." +
+				"Dolcelatte danish fontina dolcelatte camembert de normandie" +
+				"airedale goat pecorino brie. Mozzarella cauliflower cheese" +
+				"chalk and cheese cheddar smelly cheese say cheese who moved" +
+				"my cheese blue castello. Cheddar smelly cheese cheese triangles" +
+				"brie pecorino jarlsberg stinking bishop cheese and biscuits." +
+				"Danish fontina blue castello bavarian bergkase blue castello.",
 			"images": [
 				"http://placekitten.com/197/148",
 				"http://placekitten.com/197/148"
 			]
-		}
-	],
+		}],
 	"display": function() {
 		for (var i = 0, len = projects.projects.length; i < len; i++) {
 			$("#projects").append(HTMLprojectStart);
