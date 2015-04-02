@@ -27,16 +27,18 @@ var bio = {
 
 		// contact info
 		for (var contact in bio.contacts) {
-			var formattedContact = HTMLcontactGeneric.replace(/%contact%|%data%/g, function(match) {
-				if (match === "%contact%") {
-					return contact;
-				}
-				else if (match === "%data%") {
-					return bio.contacts[contact];
-				}
-			});
-			$("#topContacts").append(formattedContact);
-			$("#footerContacts").append(formattedContact);
+      if (bio.contacts.hasOwnProperty(contact)) {
+        var formattedContact = HTMLcontactGeneric.replace(/%contact%|%data%/g, function(match) {
+          if (match === "%contact%") {
+            return contact;
+          }
+          else if (match === "%data%") {
+            return bio.contacts[contact];
+          }
+          });
+        $("#topContacts").append(formattedContact);
+        $("#footerContacts").append(formattedContact);
+    	}
 		}
 
 		var formattedPic = HTMLbioPic.replace("%data%", bio.biopic);
@@ -45,7 +47,7 @@ var bio = {
 		$("#static-header").append(formattedMsg);
 
 		$("#static-header").append(HTMLskillsStart);
-		for (var i in bio.skills) {
+		for (var i = 0, len = bio.skills.length; i < len; i++) {
 			var formattedSkill = HTMLskills.replace("%data%", bio.skills[i]);
 			$("#skills").append(formattedSkill);
 		}
@@ -95,7 +97,7 @@ var education = {
 	],
 	"display": function() {
 		// Schools
-		for (var i in education.schools) {
+		for (var i = 0, len = education.schools.length; i < len; i++) {
 			$("#education").append(HTMLschoolStart);
 
 			var school = '';
@@ -110,7 +112,7 @@ var education = {
 
 		// Online classes
 		$("#education").append(HTMLonlineClasses);
-		for (var i in education.onlineCourses) {
+		for (var j = 0, oclen = education.onlineCourses.length; j < oclen; j++) {
 			$("#education").append(HTMLschoolStart);
 			var onlineClass = '';
 			onlineClass += HTMLonlineTitle.replace("%data%", education.onlineCourses[i].title);
@@ -123,6 +125,7 @@ var education = {
 	}
 };
 
+/*jshint multistr: true */
 var work = {
 	"jobs": [
 		{
@@ -153,7 +156,7 @@ var work = {
 		}
 	],
 	"display": function() {
-		for (var i in work.jobs) {
+		for (var i = 0, len = work.jobs.length; i < len; i++) {
 			$("#workExperience").append(HTMLworkStart);
 
 			var job = '';
@@ -202,7 +205,7 @@ var projects = {
 		}
 	],
 	"display": function() {
-		for (var i in projects.projects) {
+		for (var i = 0, len = projects.projects.length; i < len; i++) {
 			$("#projects").append(HTMLprojectStart);
 
 			var project = '';
@@ -211,7 +214,7 @@ var projects = {
 			project += HTMLprojectDescription.replace("%data%", projects.projects[i].description);
 
 			var pics = '';
-			for (var j in projects.projects[i].images ) {
+			for (var j = 0, imgslen = projects.projects[i].images.length; j < imgslen; j++ ) {
 				pics += HTMLprojectImage.replace("%data%", projects.projects[i].images[j]);
 			}
 			project += pics;
@@ -259,7 +262,7 @@ var helpers = {
 
 		$(element).addClass("animated " + animation).one(animationEnd, function() {
 			$(this).removeClass("animated " + animation);
-		})
+		});
 	},
 	"setListeners": function() {
 		/*
